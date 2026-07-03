@@ -24,10 +24,10 @@ I was inspired to start this project after seeing the growing usage of standard 
 | Item                                     | Qty | Cost (USD) | Purchase Link                     |
 | ---------------------------------------- | --- | --------------- | --------------------------------- |
 | 20 × 22 × 330 mm Carbon Fiber Rod        | 1   | $12.89          | [Amazon](https://a.co/d/0fRC7tl8) |
-| 10 × 12 × 600 mm Carbon Fiber Rod (2 pc) | 1   | $21.98          | [Amazon](https://a.co/d/04wYlLzz) |
+| 10 × 12 × 600 mm Carbon Fiber Rod (2 pc) | 1   | $16.99          | [Amazon](https://a.co/d/0hknHJLD) |
 | KM1203MD Servo (2 pc pack)               | 2   | $56.50          | [Amazon](https://a.co/d/04CT49QQ) |
 | 3 mm Bushing                             | 2   | $6.97           | [Amazon](https://a.co/d/00eb9Lxp) |
-| 5 in. Propeller (20 pc pack)             | 3   | $19.99          | [Amazon](https://a.co/d/0d9hmukg) |
+| 5 in. Propeller (4 pc pack)              | 3   | $9.59           | [Amazon](https://a.co/d/0hknHJLD) |
 | RS2205 2300 kV Motor (4 pc pack)         | 3   | $36.99          | [Amazon](https://a.co/d/0gNAh0BJ) |
 | FS-iA6B Receiver                         | 1   | $17.99          | [Amazon](https://a.co/d/01dz03wv) |
 | AERO SELFIE 4-in-1 45A ESC               | 1   | $32.90          | [Amazon](https://a.co/d/0g2pQsMn) |
@@ -45,7 +45,7 @@ I was inspired to start this project after seeing the growing usage of standard 
 | M4×30 Button Head Screw                  | 1   |                 | Included in M4 hardware kit       |
 | M4 Nut                                   | 5   |                 | Included in M4 hardware kit       |
 
-Total Cost: $326.63
+Total Cost: $311.24
 
 ***
 
