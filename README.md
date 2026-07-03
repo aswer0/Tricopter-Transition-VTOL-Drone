@@ -51,8 +51,38 @@ Total Cost: $311.24
 
 ## Assembly Instructions
 
-Coming soon, after I receive funding and build it.
-It should be pretty simple, as it mostly consists of gluing together 3D printed parts and screwing in motors and servos.
+MORE DETAILED INSTRUCTIONS WILL COME ONCE BUILD IS COMPLETE.
+
+Nacelles:
+1. Screw a CCW motor onto the front motor mount using 4x M3x6mm screws.
+2. Screw the tilt servo (not MG90S) into the right nacelle using the provided self-threading screws.
+3. Pressfit a 3mm bushing onto the motor mount.
+4. Attach the motor mount to the nacelle by pressfitting a servo horn into the indent, and using a M3x8mm screw to connect the bushing side.
+5. Run the wires through the tunnel and out the side.
+6. Repeat steps 1-5 for the left side (using a CW motor).
+
+Wing:
+1. Glue each wing piece in order using CA glue (W1, W2, W3).
+2. Glue each aileron piece together.
+3. Run a piece of PLA filament through the aileron hole and use that to attach it to the wing.
+4. Use hot glue to attach the MG90S servo.
+
+Fuselage:
+1. Glue each piece in order using CA glue (F1 in the front, F3 in the back.
+2. Glue the two canopy pieces together and set aside.
+
+Tail:
+1. Glue the two tail pieces to the middle clamp.
+2. Attach the ruddervators to the tail with a piece of PLA filament as the hinge.
+3. Use hot glue to install each MG90S servo.
+
+Assembly:
+1. Insert the 600mm CF rod into the side of the fuselage.
+2. Slide the wings and nacelles into place and secure with CA glue. Make sure to run the wires using the tunnels into the fuselage.
+3. Hot glue the 330mm CF rod into the back of the fuselage.
+4. Screw on the back motor to its mount, then clamp the mount onto the CF rod.
+5. Slide the tail assembly into place and clamp it using M3 screws. Run the servo wires (with extensions) through the CF tube to the fuselage.
+6. Use double sided tape and/or velcro to attach the electronics into the compartment inside the fuselage.
 
 ***
 
