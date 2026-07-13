@@ -1,7 +1,13 @@
 #include <Servo.h>
 
+int m1_command_PWM, m2_command_PWM, m3_command_PWM;
+
 Servo servo1;
 Servo servo2;
+
+const int M1_PIN = 0;
+const int M2_PIN = 1;
+const int M3_PIN = 2;
 
 const int SERVO1_PIN = 6;
 const int SERVO2_PIN = 7;
@@ -46,6 +52,7 @@ void setup()
     servo1.writeMicroseconds(1500);
     servo2.writeMicroseconds(1500);
 
+    motorSetup();
     radioSetup();
 }
 
@@ -58,13 +65,16 @@ void loop()
     ch5PWM = getRadioPWM(5);
     ch6PWM = getRadioPWM(6);
 
-    if (ch6PWM > 1500) {
+    if (ch6PWM > 1700) {
       servo1.writeMicroseconds(SERVO1_VERTICAL_CENTER);
       servo2.writeMicroseconds(SERVO2_VERTICAL_CENTER);
-    } else {
+    } else if (ch6PWM < 1300) {
       servo1.writeMicroseconds(SERVO1_HORIZONTAL_CENTER);
       servo2.writeMicroseconds(SERVO2_HORIZONTAL_CENTER);
     }
+
+    scaleCommands();
+    commandMotors();
 
     if (millis() - lastPrint > 100) {
         Serial.print("CH1: ");
@@ -89,3 +99,21 @@ void loop()
     }
 }
 
+int pwmToOneshot125(int pwm) {
+  float scaled = (pwm - 1000) / 1000.0f;
+  scaled = constrain(scaled, 0.0f, 1.0f);
+  return scaled * 125 + 125;
+}
+
+void scaleCommands() {
+  //safety switch
+  if (ch5PWM > 1500) {
+    m1_command_PWM = 125;
+    m2_command_PWM = 125;
+    m3_command_PWM = 125;
+  } else {
+    m1_command_PWM = pwmToOneshot125(ch3PWM);
+    m2_command_PWM = pwmToOneshot125(ch3PWM);
+    m3_command_PWM = pwmToOneshot125(ch3PWM);
+  }
+}
