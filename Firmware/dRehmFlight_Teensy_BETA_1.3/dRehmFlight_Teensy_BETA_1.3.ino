@@ -181,11 +181,11 @@ float maxRoll = 30.0;     //Max roll angle in degrees for angle mode (maximum ~7
 float maxPitch = 30.0;    //Max pitch angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
 float maxYaw = 160.0;     //Max yaw rate in deg/sec
 
-float Kp_roll_angle = 0.2;    //Roll P-gain - angle mode 
+float Kp_roll_angle = 0.2;    //Roll P-gain - angle mode //0.2
 float Ki_roll_angle = 0.3;    //Roll I-gain - angle mode
 float Kd_roll_angle = 0.05;   //Roll D-gain - angle mode (has no effect on controlANGLE2)
 float B_loop_roll = 0.9;      //Roll damping term for controlANGLE2(), lower is more damping (must be between 0 to 1)
-float Kp_pitch_angle = 0.2;   //Pitch P-gain - angle mode
+float Kp_pitch_angle = 0.2;   //Pitch P-gain - angle mode //0.2
 float Ki_pitch_angle = 0.3;   //Pitch I-gain - angle mode
 float Kd_pitch_angle = 0.05;  //Pitch D-gain - angle mode (has no effect on controlANGLE2)
 float B_loop_pitch = 0.9;     //Pitch damping term for controlANGLE2(), lower is more damping (must be between 0 to 1)
@@ -202,19 +202,23 @@ float Ki_yaw = 0.05;          //Yaw I-gain
 float Kd_yaw = 0.00015;       //Yaw D-gain (be careful when increasing too high, motors will begin to overheat!)
 
 //constants
-const int SERVO1_MIN = 900;
+const int SERVO1_MIN = 950; //LEFT SERVO
 // const int SERVO1_VERTICAL_CENTER = 1050; //raw pwm
 // const int SERVO1_HORIZONTAL_CENTER = 2000; //raw pwm
 const float SERVO1_VERTICAL_CENTER = 0.12;
 const float SERVO1_HORIZONTAL_CENTER = 0.88;
-const int SERVO1_MAX = 2150;
+const int SERVO1_MAX = 2200;
 
-const int SERVO2_MIN = 900;
+const int SERVO2_MIN = 900; //RIGHT SERVO
 // const int SERVO2_VERTICAL_CENTER = 2000; //raw pwm
 // const int SERVO2_HORIZONTAL_CENTER = 1050; //raw pwm
 const float SERVO2_VERTICAL_CENTER = 0.88;
 const float SERVO2_HORIZONTAL_CENTER = 0.12;
 const int SERVO2_MAX = 2150;
+
+const float PITCH_OFFSET = 5.7; //3.7
+const float ROLL_OFFSET = 0.8;
+const float TORQUE_SCALE = 2.0;//1.39
 
 
 //========================================================================================================================//
@@ -421,7 +425,7 @@ void loop() {
   //printGyroData();      //Prints filtered gyro data direct from IMU (expected: ~ -250 to 250, 0 at rest)
   //printAccelData();     //Prints filtered accelerometer data direct from IMU (expected: ~ -2 to 2; x,y 0 when level, z 1 when level)
   //printMagData();       //Prints filtered magnetometer data direct from IMU (expected: ~ -300 to 300)
-  //printRollPitchYaw();  //Prints roll, pitch, and yaw angles in degrees from Madgwick filter (expected: degrees, 0 when level)
+  printRollPitchYaw();  //Prints roll, pitch, and yaw angles in degrees from Madgwick filter (expected: degrees, 0 when level)
   //printPIDoutput();     //Prints computed stabilized PID variables from controller and desired setpoint (expected: ~ -1 to 1)
   //printMotorCommands(); //Prints the values being written to the motors (expected: 120 to 250)
   //printServoCommands(); //Prints the values being written to the servos (expected: 0 to 180)
@@ -492,9 +496,9 @@ void controlMixer() {
    *channel_6_pwm - free auxillary channel, can be used to toggle things with an 'if' statement
    */
    
-  m1_command_scaled = thro_des + pitch_PID - roll_PID; //Front Right
-  m2_command_scaled = thro_des - pitch_PID; //Back
-  m3_command_scaled = thro_des + pitch_PID + roll_PID; //Front Left
+  m1_command_scaled = thro_des - TORQUE_SCALE*pitch_PID - roll_PID; //Front Right
+  m2_command_scaled = thro_des + 1.00*pitch_PID; //Back
+  m3_command_scaled = thro_des - TORQUE_SCALE*pitch_PID + roll_PID; //Front Left
 
   //0.5 is centered servo, 0.0 is zero throttle if connecting to ESC for conventional PWM, 1.0 is max throttle
   s1_command_scaled = SERVO1_VERTICAL_CENTER - yaw_PID; //Front left servo
@@ -825,8 +829,8 @@ void Madgwick(float gx, float gy, float gz, float ax, float ay, float az, float 
   q3 *= recipNorm;
   
   //compute angles - NWU
-  roll_IMU = atan2(q0*q1 + q2*q3, 0.5f - q1*q1 - q2*q2)*57.29577951; //degrees
-  pitch_IMU = -asin(constrain(-2.0f * (q1*q3 - q0*q2),-0.999999,0.999999))*57.29577951; //degrees
+  roll_IMU = atan2(q0*q1 + q2*q3, 0.5f - q1*q1 - q2*q2)*57.29577951 + ROLL_OFFSET; //degrees
+  pitch_IMU = -asin(constrain(-2.0f * (q1*q3 - q0*q2),-0.999999,0.999999))*57.29577951 + PITCH_OFFSET; //degrees
   yaw_IMU = -atan2(q1*q2 + q0*q3, 0.5f - q2*q2 - q3*q3)*57.29577951; //degrees
 }
 
@@ -907,8 +911,8 @@ void Madgwick6DOF(float gx, float gy, float gz, float ax, float ay, float az, fl
   q3 *= recipNorm;
 
   //Compute angles
-  roll_IMU = atan2(q0*q1 + q2*q3, 0.5f - q1*q1 - q2*q2)*57.29577951; //degrees
-  pitch_IMU = -asin(constrain(-2.0f * (q1*q3 - q0*q2),-0.999999,0.999999))*57.29577951; //degrees
+  roll_IMU = atan2(q0*q1 + q2*q3, 0.5f - q1*q1 - q2*q2)*57.29577951 + ROLL_OFFSET; //degrees
+  pitch_IMU = -asin(constrain(-2.0f * (q1*q3 - q0*q2),-0.999999,0.999999))*57.29577951 + PITCH_OFFSET; //degrees
   yaw_IMU = -atan2(q1*q2 + q0*q3, 0.5f - q2*q2 - q3*q3)*57.29577951; //degrees
 }
 
@@ -1157,8 +1161,8 @@ void scaleCommands() {
   s6_command_PWM = s6_command_scaled*180;
   s7_command_PWM = s7_command_scaled*180;
   //Constrain commands to servos within servo library bounds
-  s1_command_PWM = constrain(s1_command_PWM, 0, 180);
-  s2_command_PWM = constrain(s2_command_PWM, 0, 180);
+  s1_command_PWM = constrain(s1_command_PWM, 0, 43);
+  s2_command_PWM = constrain(s2_command_PWM, 137, 180);
   s3_command_PWM = constrain(s3_command_PWM, 0, 180);
   s4_command_PWM = constrain(s4_command_PWM, 0, 180);
   s5_command_PWM = constrain(s5_command_PWM, 0, 180);
