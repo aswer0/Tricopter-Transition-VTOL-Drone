@@ -181,12 +181,12 @@ float maxRoll = 30.0;     //Max roll angle in degrees for angle mode (maximum ~7
 float maxPitch = 30.0;    //Max pitch angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
 float maxYaw = 160.0;     //Max yaw rate in deg/sec
 
-float Kp_roll_angle = 0.2;    //Roll P-gain - angle mode //0.2
-float Ki_roll_angle = 0.3;    //Roll I-gain - angle mode
+float Kp_roll_angle = 0.25;    //Roll P-gain - angle mode //0.2
+float Ki_roll_angle = 0;    //Roll I-gain - angle mode 0.3
 float Kd_roll_angle = 0.05;   //Roll D-gain - angle mode (has no effect on controlANGLE2)
 float B_loop_roll = 0.9;      //Roll damping term for controlANGLE2(), lower is more damping (must be between 0 to 1)
-float Kp_pitch_angle = 0.2;   //Pitch P-gain - angle mode //0.2
-float Ki_pitch_angle = 0.3;   //Pitch I-gain - angle mode
+float Kp_pitch_angle = 0.25;   //Pitch P-gain - angle mode //0.2
+float Ki_pitch_angle = 0;   //Pitch I-gain - angle mode 0.3
 float Kd_pitch_angle = 0.05;  //Pitch D-gain - angle mode (has no effect on controlANGLE2)
 float B_loop_pitch = 0.9;     //Pitch damping term for controlANGLE2(), lower is more damping (must be between 0 to 1)
 
@@ -202,23 +202,25 @@ float Ki_yaw = 0.05;          //Yaw I-gain
 float Kd_yaw = 0.00015;       //Yaw D-gain (be careful when increasing too high, motors will begin to overheat!)
 
 //constants
-const int SERVO1_MIN = 950; //LEFT SERVO
+const int SERVO1_MIN = 960; //LEFT SERVO
 // const int SERVO1_VERTICAL_CENTER = 1050; //raw pwm
 // const int SERVO1_HORIZONTAL_CENTER = 2000; //raw pwm
-const float SERVO1_VERTICAL_CENTER = 0.12;
+const float SERVO1_VERTICAL_CENTER = 0.12; //0.12
 const float SERVO1_HORIZONTAL_CENTER = 0.88;
-const int SERVO1_MAX = 2200;
+const int SERVO1_MAX = 2210;
 
 const int SERVO2_MIN = 900; //RIGHT SERVO
 // const int SERVO2_VERTICAL_CENTER = 2000; //raw pwm
 // const int SERVO2_HORIZONTAL_CENTER = 1050; //raw pwm
-const float SERVO2_VERTICAL_CENTER = 0.88;
+const float SERVO2_VERTICAL_CENTER = 0.88; ///0.88
 const float SERVO2_HORIZONTAL_CENTER = 0.12;
 const int SERVO2_MAX = 2150;
 
-const float PITCH_OFFSET = 5.7; //3.7
-const float ROLL_OFFSET = 0.8;
-const float TORQUE_SCALE = 2.0;//1.39
+const float PITCH_OFFSET = 3.5; //3.7
+const float ROLL_OFFSET = 1.0;
+const float TORQUE_SCALE = 1.2;//1/1.39 = 0.719
+const float REAR_HOVER = 1.39;
+const float k_pitch_servo = 1.0;
 
 
 //========================================================================================================================//
@@ -496,9 +498,9 @@ void controlMixer() {
    *channel_6_pwm - free auxillary channel, can be used to toggle things with an 'if' statement
    */
    
-  m1_command_scaled = thro_des - TORQUE_SCALE*pitch_PID - roll_PID; //Front Right
-  m2_command_scaled = thro_des + 1.00*pitch_PID; //Back
-  m3_command_scaled = thro_des - TORQUE_SCALE*pitch_PID + roll_PID; //Front Left
+  m1_command_scaled = thro_des - 1.0*pitch_PID - roll_PID; //Front Right
+  m2_command_scaled = thro_des/REAR_HOVER + TORQUE_SCALE*pitch_PID; //Back
+  m3_command_scaled = thro_des - 1.0*pitch_PID + roll_PID; //Front Left
 
   //0.5 is centered servo, 0.0 is zero throttle if connecting to ESC for conventional PWM, 1.0 is max throttle
   s1_command_scaled = SERVO1_VERTICAL_CENTER - yaw_PID; //Front left servo
