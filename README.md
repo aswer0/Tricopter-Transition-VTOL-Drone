@@ -88,11 +88,11 @@ Assembly:
 
 ## Electronics
 
-I plan on using the Drehmflight flight controller, which is based upon using a Teensy 4.0 Microcontroller. The Teensy will receive human inputs from a F-iA6B receiver, and will output PWM and Oneshot125 signals to all 6 servos as well as a 4-in-1 ESC, respectively. The ESC will receive power from a 4s Lipo battery which will power the whole drone, and the ESC will also control the 3 different motors. Finally, the Teensy will receive gyro and accelerometer data from a MPU6050 IMU.
+The electronics are based around the open-sourced flight controller Drehmflight, which uses a Teensy 4.0 board. There are no PCBs involved and all the components are soldered and wired together.
 
-<img width="896" height="484" alt="image" src="https://github.com/user-attachments/assets/228316cc-c49e-4af8-a5cb-403f220007fa" />
+The schematics are shown below, and can also be viewed in KiCAD.
+<img width="2258" height="1552" alt="image" src="https://github.com/user-attachments/assets/91702385-ce12-4d16-bf87-4755d7fc24a2" />
 
-Image Credit to Nicholas Rehm: Pinouts on the broken out Teensy 4.0
 
 ***
 
