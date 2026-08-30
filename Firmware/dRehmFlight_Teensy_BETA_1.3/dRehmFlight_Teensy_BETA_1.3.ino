@@ -168,12 +168,12 @@ float MagScaleY = 1.0;
 float MagScaleZ = 1.0;
 
 //IMU calibration parameters - calibrate IMU using calculate_IMU_error() in the void setup() to get these values, then comment out calculate_IMU_error()
-float AccErrorX = 0.0;
-float AccErrorY = 0.0;
-float AccErrorZ = 0.0;
-float GyroErrorX = 0.0;
-float GyroErrorY= 0.0;
-float GyroErrorZ = 0.0;
+float AccErrorX = 0.10;
+float AccErrorY = 0.02;
+float AccErrorZ = -0.08;
+float GyroErrorX = -1.26;
+float GyroErrorY = -3.09;
+float GyroErrorZ = -0.99;
 
 //Controller parameters (take note of defaults before modifying!): 
 float i_limit = 25.0;     //Integrator saturation level, mostly for safety (default 25.0)
@@ -181,12 +181,12 @@ float maxRoll = 30.0;     //Max roll angle in degrees for angle mode (maximum ~7
 float maxPitch = 30.0;    //Max pitch angle in degrees for angle mode (maximum ~70 degrees), deg/sec for rate mode
 float maxYaw = 160.0;     //Max yaw rate in deg/sec
 
-float Kp_roll_angle = 0.25;    //Roll P-gain - angle mode //0.2
-float Ki_roll_angle = 0;    //Roll I-gain - angle mode 0.3
+float Kp_roll_angle = 0.1;    //Roll P-gain - angle mode //0.2
+float Ki_roll_angle = 0.1;    //Roll I-gain - angle mode 0.3
 float Kd_roll_angle = 0.05;   //Roll D-gain - angle mode (has no effect on controlANGLE2)
 float B_loop_roll = 0.9;      //Roll damping term for controlANGLE2(), lower is more damping (must be between 0 to 1)
-float Kp_pitch_angle = 0.25;   //Pitch P-gain - angle mode //0.2
-float Ki_pitch_angle = 0;   //Pitch I-gain - angle mode 0.3
+float Kp_pitch_angle = 0.1;   //Pitch P-gain - angle mode //0.2
+float Ki_pitch_angle = 0.1;   //Pitch I-gain - angle mode 0.3
 float Kd_pitch_angle = 0.05;  //Pitch D-gain - angle mode (has no effect on controlANGLE2)
 float B_loop_pitch = 0.9;     //Pitch damping term for controlANGLE2(), lower is more damping (must be between 0 to 1)
 
@@ -197,29 +197,31 @@ float Kp_pitch_rate = 0.15;   //Pitch P-gain - rate mode
 float Ki_pitch_rate = 0.2;    //Pitch I-gain - rate mode
 float Kd_pitch_rate = 0.0002; //Pitch D-gain - rate mode (be careful when increasing too high, motors will begin to overheat!)
 
-float Kp_yaw = 0.3;           //Yaw P-gain
+float Kp_yaw = 0.35;           //Yaw P-gain
 float Ki_yaw = 0.05;          //Yaw I-gain
 float Kd_yaw = 0.00015;       //Yaw D-gain (be careful when increasing too high, motors will begin to overheat!)
 
 //constants
-const int SERVO1_MIN = 960; //LEFT SERVO
+const int SERVO1_MIN = 947; //LEFT SERVO
 // const int SERVO1_VERTICAL_CENTER = 1050; //raw pwm
 // const int SERVO1_HORIZONTAL_CENTER = 2000; //raw pwm
 const float SERVO1_VERTICAL_CENTER = 0.12; //0.12
 const float SERVO1_HORIZONTAL_CENTER = 0.88;
-const int SERVO1_MAX = 2210;
+const int SERVO1_MAX = 2197;
 
-const int SERVO2_MIN = 900; //RIGHT SERVO
+const int SERVO2_MIN = 922; //RIGHT SERVO
 // const int SERVO2_VERTICAL_CENTER = 2000; //raw pwm
 // const int SERVO2_HORIZONTAL_CENTER = 1050; //raw pwm
 const float SERVO2_VERTICAL_CENTER = 0.88; ///0.88
 const float SERVO2_HORIZONTAL_CENTER = 0.12;
-const int SERVO2_MAX = 2150;
+const int SERVO2_MAX = 2172;
 
-const float PITCH_OFFSET = 3.5; //3.7
-const float ROLL_OFFSET = 1.0;
-const float TORQUE_SCALE = 1.2;//1/1.39 = 0.719
-const float REAR_HOVER = 1.39;
+// const float PITCH_TRIM = 0.0;
+// const float ROLL_TRIM = 0.0;
+// const float PITCH_OFFSET = 14.95; //3.7
+// const float ROLL_OFFSET = -1.4; //1.0
+const float TORQUE_SCALE = 1;//1.225
+const float REAR_HOVER = 1.225; //1.225
 const float k_pitch_servo = 1.0;
 
 
@@ -498,9 +500,9 @@ void controlMixer() {
    *channel_6_pwm - free auxillary channel, can be used to toggle things with an 'if' statement
    */
    
-  m1_command_scaled = thro_des - 1.0*pitch_PID - roll_PID; //Front Right
-  m2_command_scaled = thro_des/REAR_HOVER + TORQUE_SCALE*pitch_PID; //Back
-  m3_command_scaled = thro_des - 1.0*pitch_PID + roll_PID; //Front Left
+  m1_command_scaled = thro_des + 1.0*pitch_PID + roll_PID; //Front Right
+  m2_command_scaled = thro_des/REAR_HOVER - pitch_PID/TORQUE_SCALE; //Back
+  m3_command_scaled = thro_des + 1.0*pitch_PID - roll_PID; //Front Left
 
   //0.5 is centered servo, 0.0 is zero throttle if connecting to ESC for conventional PWM, 1.0 is max throttle
   s1_command_scaled = SERVO1_VERTICAL_CENTER - yaw_PID; //Front left servo
@@ -831,8 +833,8 @@ void Madgwick(float gx, float gy, float gz, float ax, float ay, float az, float 
   q3 *= recipNorm;
   
   //compute angles - NWU
-  roll_IMU = atan2(q0*q1 + q2*q3, 0.5f - q1*q1 - q2*q2)*57.29577951 + ROLL_OFFSET; //degrees
-  pitch_IMU = -asin(constrain(-2.0f * (q1*q3 - q0*q2),-0.999999,0.999999))*57.29577951 + PITCH_OFFSET; //degrees
+  roll_IMU = atan2(q0*q1 + q2*q3, 0.5f - q1*q1 - q2*q2)*57.29577951;// + ROLL_OFFSET; //degrees
+  pitch_IMU = -asin(constrain(-2.0f * (q1*q3 - q0*q2),-0.999999,0.999999))*57.29577951;// + PITCH_OFFSET; //degrees
   yaw_IMU = -atan2(q1*q2 + q0*q3, 0.5f - q2*q2 - q3*q3)*57.29577951; //degrees
 }
 
@@ -913,8 +915,8 @@ void Madgwick6DOF(float gx, float gy, float gz, float ax, float ay, float az, fl
   q3 *= recipNorm;
 
   //Compute angles
-  roll_IMU = atan2(q0*q1 + q2*q3, 0.5f - q1*q1 - q2*q2)*57.29577951 + ROLL_OFFSET; //degrees
-  pitch_IMU = -asin(constrain(-2.0f * (q1*q3 - q0*q2),-0.999999,0.999999))*57.29577951 + PITCH_OFFSET; //degrees
+  roll_IMU = atan2(q0*q1 + q2*q3, 0.5f - q1*q1 - q2*q2)*57.29577951;// + ROLL_OFFSET; //degrees
+  pitch_IMU = -asin(constrain(-2.0f * (q1*q3 - q0*q2),-0.999999,0.999999))*57.29577951;// + PITCH_OFFSET; //degrees
   yaw_IMU = -atan2(q1*q2 + q0*q3, 0.5f - q2*q2 - q3*q3)*57.29577951; //degrees
 }
 

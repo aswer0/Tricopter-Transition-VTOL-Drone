@@ -2,9 +2,11 @@
 
 // Servo servo1;
 // Servo servo2;
+// Servo servo3;
 
 // const int SERVO1_PIN = 6;
 // const int SERVO2_PIN = 7;
+// const int SERVO3_PIN = 8;
 
 // const int CH1_PIN = 20;
 // const int CH2_PIN = 15;
@@ -23,15 +25,20 @@
 // const int SERVO2_HORIZONTAL_CENTER = 1050;
 // const int SERVO2_MAX = 2150;
 
+// const int SERVO3_MIN = 1000;
+// const int SERVO3_MAX = 2000;
+
 // int ch1PWM;
 // int ch2PWM;
 // int ch5PWM;
 
 // float servo1Command;
 // float servo2Command;
+// float servo3Command;
 
 // int servo1PWM;
 // int servo2PWM;
+// int servo3PWM;
 
 // void setup()
 // {
@@ -39,9 +46,11 @@
 
 //     servo1.attach(SERVO1_PIN);
 //     servo2.attach(SERVO2_PIN);
+//     servo3.attach(SERVO3_PIN);
 
 //     servo1.writeMicroseconds(1500);
 //     servo2.writeMicroseconds(1500);
+//     servo3.writeMicroseconds(1500);
 
 //     pinMode(CH1_PIN, INPUT);
 //     pinMode(CH2_PIN, INPUT);
@@ -65,6 +74,11 @@
 
 //     //servo1.writeMicroseconds(servo1PWM);
 //     //servo2.writeMicroseconds(servo2PWM);
+
+//     servo3Command = (ch1PWM - RECEIVER_MIN) / (float)(RECEIVER_MAX - RECEIVER_MIN);
+//     servo3Command = constrain(servo3Command, 0.0f, 1.0f);
+//     servo3PWM = SERVO3_MIN + servo3Command * (SERVO3_MAX - SERVO3_MIN);
+//     servo3.writeMicroseconds(ch1PWM);
 
 //     if (ch5PWM > 1500)
 //     {
@@ -96,6 +110,14 @@
 
 //     Serial.print(" SERVO2: ");
 //     Serial.println(servo2PWM);
+
+//     Serial.print(" | ");
+
+//     Serial.print(" CMD3: ");
+//     Serial.print(servo3Command, 3);
+
+//     Serial.print(" SERVO3: ");
+//     Serial.println(servo3PWM);
 
 //     delay(10);
 // }
