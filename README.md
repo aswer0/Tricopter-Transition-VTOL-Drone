@@ -1,6 +1,6 @@
 # Tricopter-Transition-VTOL-Drone
 
-![Perspective View](./Images/VTOL%20Tri-copter%20Perspective%20View.png)
+![Perspective View](./Images/Renders/VTOL%20Tri-copter%20Perspective%20View.png)
 This VTOL (Vertical Take-off and Landing) Tricopter UAV (Unmanned Aerial Vehicle) is fully 3D printed and reinforced with carbon fiber rods. It can transition from vertical flight as a standard tricopter to forward flight as a fixed wing UAV by tilting its front 2 propellers.
 
 ***
@@ -99,7 +99,7 @@ Electronics:
 2. Screw in the ESC using the included M3 screws and rubber grommets.
 3. Use VHB to attach the Teensy to its mount, the IMU to its mount, and the receiver to the side of the fuselage.
 4. Attach a piece of velcro for the battery somewhere inside F1 so that the position of the battery can be shifted to adjust the center of gravity.
-
+![Build in Progress](./Images/Final%20Build.jpg)
 ***
 
 ## Electronics
