@@ -117,3 +117,5 @@ The schematics are shown below, and can also be viewed in KiCAD.
 ## Software
 
 The flight controller runs a modified version of Drehmflight, made by Nicholas Rehm. The full documentation for Drehmflight can be found here: https://github.com/nickrehm/dRehmFlight/blob/master/dRehmFlight%20VTOL%20Documentation.pdf
+
+To compile the firmware, download the source code under the "Firmware" tab, open it in Arduino IDE, then upload to the Teensy 4.0 board over USB.
