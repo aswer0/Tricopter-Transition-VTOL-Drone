@@ -3,6 +3,8 @@
 ![Perspective View](./Images/Renders/VTOL%20Tri-copter%20Perspective%20View.png)
 This VTOL (Vertical Take-off and Landing) Tricopter UAV (Unmanned Aerial Vehicle) is fully 3D printed and reinforced with carbon fiber rods. It can transition from vertical flight as a standard tricopter to forward flight as a fixed wing UAV by tilting its front 2 propellers.
 
+Demo Link: https://youtube.com/shorts/rxa7jozEfoo?feature=share
+
 ***
 
 ## Motivation
