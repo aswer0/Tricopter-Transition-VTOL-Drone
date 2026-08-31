@@ -13,7 +13,7 @@ I was inspired to start this project after seeing the growing usage of standard 
 ## Specifications
 - Length: 650 mm
 - Wingspan: 700 mm
-- Estimated Weight: 1580 g
+- Weight (w/ battery): 870 g
 - Max Thrust: 3072 g
 - Airfoil: HQ 3.0/14
 
@@ -49,9 +49,17 @@ Total Cost: $311.24
 
 ***
 
-## Assembly Instructions
+## Printing Instructions
 
-MORE DETAILED INSTRUCTIONS WILL COME ONCE BUILD IS COMPLETE.
+- Every part can be printed on a 180x180x180mm print bed.
+- For every wing (W) and aileron (A) part, you need to print one version as is, and one mirrored version.
+- These following parts should be printed with vase mode using LW-PLA: W1, W2, W3, A1, A3, F1, C1, C2.
+- The "Front Plate" part should be printed out of PLA with 0 top/bottom walls, 2 normal walls and 35% honeycomb infill.
+- All other parts should be printed using normal PLA with 2 walls and 2-5% gyroid infill.
+
+***
+
+## Assembly Instructions
 
 Nacelles:
 1. Screw a CCW motor onto the front motor mount using 4x M3x6mm screws.
@@ -67,9 +75,12 @@ Wing:
 3. Run a piece of PLA filament through the aileron hole and use that to attach it to the wing.
 4. Use hot glue to attach the MG90S servo.
 
-Fuselage:
+Fuselage and Canopy:
 1. Glue each piece in order using CA glue (F1 in the front, F3 in the back.
-2. Glue the two canopy pieces together and set aside.
+2. Glue together the canopy pieces (C1, C2, C3).
+3. Using CA glue, attach the front latch piece to the front of C1.
+4. Glue the Spring Mount near the seam between C2 and C3.
+5. Insert a ballpoint pen spring into the mount, then slide L1 and L2 into the slot in C3 before gluing it in place. The latch should move freely front and back.
 
 Tail:
 1. Glue the two tail pieces to the middle clamp.
@@ -82,7 +93,12 @@ Assembly:
 3. Hot glue the 330mm CF rod into the back of the fuselage.
 4. Screw on the back motor to its mount, then clamp the mount onto the CF rod.
 5. Slide the tail assembly into place and clamp it using M3 screws. Run the servo wires (with extensions) through the CF tube to the fuselage.
-6. Use double sided tape and/or velcro to attach the electronics into the compartment inside the fuselage.
+
+Electronics:
+1. Glue the 3 electronics mounts (ESC, Teensy, IMU) into the fuselage.
+2. Screw in the ESC using the included M3 screws and rubber grommets.
+3. Use VHB to attach the Teensy to its mount, the IMU to its mount, and the receiver to the side of the fuselage.
+4. Attach a piece of velcro for the battery somewhere inside F1 so that the position of the battery can be shifted to adjust the center of gravity.
 
 ***
 
@@ -98,4 +114,4 @@ The schematics are shown below, and can also be viewed in KiCAD.
 
 ## Software
 
-The current plan is to run custom C++ firmware using a modified version of Drehmflight, made by Nicholas Rehm. The full documentation for Drehmflight can be found here: https://github.com/nickrehm/dRehmFlight/blob/master/dRehmFlight%20VTOL%20Documentation.pdf
+The flight controller runs a modified version of Drehmflight, made by Nicholas Rehm. The full documentation for Drehmflight can be found here: https://github.com/nickrehm/dRehmFlight/blob/master/dRehmFlight%20VTOL%20Documentation.pdf
